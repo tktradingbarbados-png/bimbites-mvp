@@ -1,5 +1,5 @@
 export const CONFIG = {
-  whatsappTarget: "12460000000",
+  whatsappTarget: "12462453221",
   partners: [
     {
       id: "milococktails",
