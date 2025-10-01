@@ -1,3 +1,1 @@
-# BimBites MVP
-
-Food delivery app for Barbados, built with Next.js.
+# BimBites MVP (v2)\n\nFood delivery app for Barbados, built with Next.js + TailwindCSS.

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Header from '../components/Header'
 import RestaurantCard from '../components/RestaurantCard'
 import CartDrawer from '../components/CartDrawer'
+import '../styles/globals.css'
 
 export default function Home() {
   const [config, setConfig] = useState(null)

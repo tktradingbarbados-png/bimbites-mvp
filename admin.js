@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { CONFIG } from '../data/partners'
+import '../styles/globals.css'
 
 export default function Admin() {
   const [partners, setPartners] = useState(CONFIG.partners)
