@@ -1,8 +1,6 @@
-// pages/menu.jsx
 import React, { useState } from 'react';
 
 export default function Menu() {
-  // Sample menu items
   const [items] = useState([
     { id: 1, name: 'Milo Cocktail', price: 8 },
     { id: 2, name: 'Fruit Punch', price: 6 },
@@ -10,10 +8,8 @@ export default function Menu() {
     { id: 4, name: 'Tropical Shake', price: 9 },
   ]);
 
-  // Cart state with quantity
   const [cart, setCart] = useState([]);
 
-  // Add item to cart or increase quantity
   const addToCart = (item) => {
     setCart((prev) => {
       const existing = prev.find((i) => i.id === item.id);
@@ -27,7 +23,6 @@ export default function Menu() {
     });
   };
 
-  // Remove item or decrease quantity
   const removeFromCart = (itemId) => {
     setCart((prev) => {
       const existing = prev.find((i) => i.id === itemId);
@@ -42,18 +37,19 @@ export default function Menu() {
     });
   };
 
-  // Calculate total
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
-  // Send order via WhatsApp
   const handleWhatsappOrder = () => {
     if (cart.length === 0) {
       alert('Your cart is empty!');
       return;
     }
-    const phone = '12462453221'; // Your WhatsApp number
+    const phone = '12462453221'; // <--- replace with your WhatsApp number
     const message = cart
-      .map((item, index) => `${index + 1}. ${item.name} x${item.quantity} - $${item.price * item.quantity}`)
+      .map(
+        (item, index) =>
+          `${index + 1}. ${item.name} x${item.quantity} - $${item.price * item.quantity}`
+      )
       .join('\n');
     const fullMessage = `Hi, I want to place an order:\n${message}\nTotal: $${total}`;
     const url = `https://wa.me/${phone}?text=${encodeURIComponent(fullMessage)}`;
@@ -64,7 +60,6 @@ export default function Menu() {
     <div className="max-w-4xl mx-auto p-6">
       <h1 className="text-3xl font-bold mb-6 text-center">Menu</h1>
 
-      {/* Menu Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {items.map((item) => (
           <div
@@ -83,7 +78,6 @@ export default function Menu() {
         ))}
       </div>
 
-      {/* Cart */}
       <div className="mt-10 border-t pt-6">
         <h2 className="text-2xl font-bold mb-4">Your Cart</h2>
         {cart.length === 0 && <p>Your cart is empty.</p>}
@@ -96,8 +90,8 @@ export default function Menu() {
                   className="flex justify-between items-center mb-3 p-3 border rounded"
                 >
                   <div>
-                    <span className="font-semibold">{item.name}</span>{' '}
-                    x{item.quantity} - ${item.price * item.quantity}
+                    <span className="font-semibold">{item.name}</span> x{item.quantity} - $
+                    {item.price * item.quantity}
                   </div>
                   <div className="flex space-x-2">
                     <button
