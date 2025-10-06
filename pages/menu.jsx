@@ -5,7 +5,7 @@ export default function Menu() {
     { id: 1, name: 'Milo Cocktail', price: 8 },
     { id: 2, name: 'Fruit Punch', price: 6 },
     { id: 3, name: 'Cocoa Smoothie', price: 7 },
-    { id: 4, name: 'Tropical Shake', price: 9 },
+    { id: 4, name: 'Tropical Shake', price: 9 }
   ]);
 
   const [cart, setCart] = useState([]);
@@ -44,7 +44,7 @@ export default function Menu() {
       alert('Your cart is empty!');
       return;
     }
-    const phone = '12462453221'; // <--- replace with your WhatsApp number
+    const phone = '12462453221'; // replace with your WhatsApp number
     const message = cart
       .map(
         (item, index) =>
@@ -60,6 +60,7 @@ export default function Menu() {
     <div className="max-w-4xl mx-auto p-6">
       <h1 className="text-3xl font-bold mb-6 text-center">Menu</h1>
 
+      {/* Menu grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {items.map((item) => (
           <div
@@ -78,6 +79,7 @@ export default function Menu() {
         ))}
       </div>
 
+      {/* Cart section */}
       <div className="mt-10 border-t pt-6">
         <h2 className="text-2xl font-bold mb-4">Your Cart</h2>
         {cart.length === 0 && <p>Your cart is empty.</p>}
@@ -90,8 +92,7 @@ export default function Menu() {
                   className="flex justify-between items-center mb-3 p-3 border rounded"
                 >
                   <div>
-                    <span className="font-semibold">{item.name}</span> x{item.quantity} - $
-                    {item.price * item.quantity}
+                    <span className="font-semibold">{item.name}</span> x{item.quantity} - ${item.price * item.quantity}
                   </div>
                   <div className="flex space-x-2">
                     <button
