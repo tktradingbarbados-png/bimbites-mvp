@@ -51,7 +51,7 @@ export default function Menu() {
       alert('Your cart is empty!');
       return;
     }
-    const phone = '1234567890'; // Your WhatsApp number
+    const phone = '12462453221'; // Your WhatsApp number
     const message = cart
       .map((item, index) => `${index + 1}. ${item.name} x${item.quantity} - $${item.price * item.quantity}`)
       .join('\n');
