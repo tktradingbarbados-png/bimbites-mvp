@@ -47,19 +47,6 @@ export default function CartDrawer({ open, cart, onClose, onRemove, whatsappTarg
                   <div className="font-semibold mt-1">BBD ${i.price.toFixed(2)}</div>
                 </div>
                 <div><button onClick={()=>onRemove(idx)} className="px-2 py-1 border rounded">Remove</button></div>
-              </div>const handleWhatsAppOrder = () => {
-  if (!cart.length) return alert("Your cart is empty!");
-<button 
-  onClick={handleWhatsAppOrder}
-  className="bg-green-500 text-white px-4 py-2 rounded w-full mt-4"
->
-  Send Order via WhatsApp
-</button>
-  const items = cart.map(i => `${i.restaurantName}: ${i.name} ($${i.price})`).join('\n');
-  const message = `Hi! I'd like to place an order:\n${items}\n\nTotal: $${cart.reduce((a,b)=>a+b.price,0).toFixed(2)}`;
-  const number = config.whatsappTarget.replace(/\D/g,''); // clean number
-  window.open(`https://wa.me/${number}?text=${encodeURIComponent(message)}`, '_blank');
-};
             ))
           )}
         </div>
