@@ -102,7 +102,21 @@ export const CONFIG = {
         { id:'mi10', name: 'Margarita (250ml)', desc: 'Classic margarita pouch', price: 12.00 },
         { id:'mi11', name: 'Custom Mix (250ml)', desc: 'Create your own mix', price: 10.00 },
         { id:'mi12', name: 'Any Flavor (100ml)', desc: 'Small 100ml pouch (any flavor)', price: 7.00 }
-      ]
+      {
+  id: 'milococktails',
+  name: 'MiloCocktails',
+  banner: '/images/milococktails.jpg',
+  cuisine: 'Cocktails • Beverages',
+  eta: 20,
+  distanceKm: 1.5,
+  rating: 5.0,
+  menu: [
+    { id: 'm1', name: 'Milo Punch', desc: 'Signature creamy cocktail with Milo and rum', price: 18.00 },
+    { id: 'm2', name: 'Milo Mojito', desc: 'Milo twist on a classic mojito with chocolate mint flavor', price: 20.00 },
+    { id: 'm3', name: 'Milo Martini', desc: 'Chilled Milo martini with Baileys and a chocolate rim', price: 22.00 }
+  ]
+}
+
     }
   ]
 };
