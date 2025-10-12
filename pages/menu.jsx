@@ -1,126 +1,168 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
-export default function Menu() {
-  const [items] = useState([
-    { id: 1, name: 'Milo Cocktail', price: 8 },
-    { id: 2, name: 'Fruit Punch', price: 6 },
-    { id: 3, name: 'Cocoa Smoothie', price: 7 },
-    { id: 4, name: 'Tropical Shake', price: 9 }
-  ]);
+export default function MenuPage() {
+  // Sample partners + menu items
+  const partners = [
+    {
+      id: 1,
+      name: "Milo Cocktails",
+      items: [
+        { id: 1, name: "Classic Milo Shake", price: 10 },
+        { id: 2, name: "Peanut Punch", price: 12 },
+        { id: 3, name: "Milo Mocha Blend", price: 14 },
+      ],
+    },
+    {
+      id: 2,
+      name: "Bimbites Kitchen",
+      items: [
+        { id: 4, name: "BBQ Wings", price: 18 },
+        { id: 5, name: "Loaded Fries", price: 15 },
+        { id: 6, name: "Tropical Smoothie", price: 13 },
+      ],
+    },
+  ];
 
   const [cart, setCart] = useState([]);
+  const [showCart, setShowCart] = useState(false);
+  const [search, setSearch] = useState("");
 
+  // Add item to cart
   const addToCart = (item) => {
     setCart((prev) => {
-      const existing = prev.find((i) => i.id === item.id);
-      if (existing) {
+      const found = prev.find((i) => i.id === item.id);
+      if (found) {
         return prev.map((i) =>
-          i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i
+          i.id === item.id ? { ...i, qty: i.qty + 1 } : i
         );
-      } else {
-        return [...prev, { ...item, quantity: 1 }];
       }
+      return [...prev, { ...item, qty: 1 }];
     });
   };
 
+  // Remove item from cart
   const removeFromCart = (itemId) => {
-    setCart((prev) => {
-      const existing = prev.find((i) => i.id === itemId);
-      if (!existing) return prev;
-      if (existing.quantity === 1) {
-        return prev.filter((i) => i.id !== itemId);
-      } else {
-        return prev.map((i) =>
-          i.id === itemId ? { ...i, quantity: i.quantity - 1 } : i
-        );
-      }
-    });
+    setCart((prev) => prev.filter((i) => i.id !== itemId));
   };
 
-  const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  // Total
+  const total = cart.reduce((sum, i) => sum + i.price * i.qty, 0);
 
-  const handleWhatsappOrder = () => {
-    if (cart.length === 0) {
-      alert('Your cart is empty!');
-      return;
-    }
-    const phone = '12462453221'; // replace with your WhatsApp number
-    const message = cart
-      .map(
-        (item, index) =>
-          `${index + 1}. ${item.name} x${item.quantity} - $${item.price * item.quantity}`
-      )
-      .join('\n');
-    const fullMessage = `Hi, I want to place an order:\n${message}\nTotal: $${total}`;
-    const url = `https://wa.me/${phone}?text=${encodeURIComponent(fullMessage)}`;
-    window.open(url, '_blank');
+  // WhatsApp checkout
+  const checkout = () => {
+    const orderText = cart
+      .map((i) => `${i.name} x${i.qty} - $${i.price * i.qty}`)
+      .join("%0A");
+    const message = `Hello! I’d like to place an order:%0A${orderText}%0A%0ATotal: $${total}`;
+    const url = `https://wa.me/12465551234?text=${message}`; // Replace with your business WhatsApp number
+    window.open(url, "_blank");
   };
+
+  // Search filter
+  const filteredPartners = partners.map((p) => ({
+    ...p,
+    items: p.items.filter((i) =>
+      i.name.toLowerCase().includes(search.toLowerCase())
+    ),
+  }));
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
-      <h1 className="text-3xl font-bold mb-6 text-center">Menu</h1>
+    <div className="p-4">
+      <h1 className="text-2xl font-bold mb-4">BimBites Menu</h1>
 
-      {/* Menu grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {items.map((item) => (
-          <div
-            key={item.id}
-            className="p-4 border rounded shadow hover:shadow-lg transition"
-          >
-            <h2 className="text-xl font-semibold mb-2">{item.name}</h2>
-            <p className="mb-4">Price: ${item.price}</p>
-            <button
-              onClick={() => addToCart(item)}
-              className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
-            >
-              Add to Cart
-            </button>
-          </div>
-        ))}
-      </div>
+      <input
+        type="text"
+        placeholder="Search items..."
+        className="border p-2 w-full mb-4 rounded"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+      />
 
-      {/* Cart section */}
-      <div className="mt-10 border-t pt-6">
-        <h2 className="text-2xl font-bold mb-4">Your Cart</h2>
-        {cart.length === 0 && <p>Your cart is empty.</p>}
-        {cart.length > 0 && (
-          <div>
-            <ul>
-              {cart.map((item) => (
-                <li
+      {filteredPartners.map((partner) => (
+        <div key={partner.id} className="mb-6 border-b pb-4">
+          <h2 className="text-xl font-semibold mb-2">{partner.name}</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+            {partner.items.length > 0 ? (
+              partner.items.map((item) => (
+                <div
                   key={item.id}
-                  className="flex justify-between items-center mb-3 p-3 border rounded"
+                  className="border p-3 rounded shadow hover:shadow-md transition"
                 >
-                  <div>
-                    <span className="font-semibold">{item.name}</span> x{item.quantity} - ${item.price * item.quantity}
-                  </div>
-                  <div className="flex space-x-2">
-                    <button
-                      onClick={() => removeFromCart(item.id)}
-                      className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
-                    >
-                      -
-                    </button>
-                    <button
-                      onClick={() => addToCart(item)}
-                      className="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600"
-                    >
-                      +
-                    </button>
-                  </div>
-                </li>
-              ))}
-            </ul>
-            <p className="font-bold text-lg mt-2">Total: ${total}</p>
-            <button
-              onClick={handleWhatsappOrder}
-              className="mt-4 bg-green-500 text-white px-5 py-2 rounded hover:bg-green-600"
-            >
-              Send Order via WhatsApp
-            </button>
+                  <h3 className="font-medium">{item.name}</h3>
+                  <p className="text-gray-500">${item.price}</p>
+                  <button
+                    onClick={() => addToCart(item)}
+                    className="bg-green-600 text-white px-3 py-1 rounded mt-2 hover:bg-green-700"
+                  >
+                    Add to Cart
+                  </button>
+                </div>
+              ))
+            ) : (
+              <p className="text-gray-400 italic">No items found</p>
+            )}
           </div>
-        )}
-      </div>
+        </div>
+      ))}
+
+      {/* Cart button */}
+      <button
+        onClick={() => setShowCart(true)}
+        className="fixed bottom-5 right-5 bg-blue-600 text-white px-4 py-2 rounded-full shadow-lg"
+      >
+        View Cart ({cart.length})
+      </button>
+
+      {/* Cart modal */}
+      {showCart && (
+        <div className="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center">
+          <div className="bg-white p-6 rounded-lg w-96 relative">
+            <button
+              className="absolute top-2 right-2 text-gray-500"
+              onClick={() => setShowCart(false)}
+            >
+              ✕
+            </button>
+            <h2 className="text-xl font-bold mb-3">Your Cart</h2>
+
+            {cart.length === 0 ? (
+              <p>Your cart is empty.</p>
+            ) : (
+              <>
+                <ul className="space-y-2 mb-4">
+                  {cart.map((item) => (
+                    <li key={item.id} className="flex justify-between items-center">
+                      <span>
+                        {item.name} x{item.qty}
+                      </span>
+                      <div className="flex items-center gap-2">
+                        <span>${item.price * item.qty}</span>
+                        <button
+                          onClick={() => removeFromCart(item.id)}
+                          className="text-red-500"
+                        >
+                          ✕
+                        </button>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+
+                <div className="font-semibold mb-3">
+                  Total: ${total.toFixed(2)}
+                </div>
+
+                <button
+                  onClick={checkout}
+                  className="bg-green-600 text-white w-full py-2 rounded hover:bg-green-700"
+                >
+                  Checkout with WhatsApp
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
