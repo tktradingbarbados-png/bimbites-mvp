@@ -54,7 +54,7 @@ export default function MenuPage() {
       .map((i) => `${i.name} x${i.qty} - $${i.price * i.qty}`)
       .join("%0A");
     const message = `Hello! I’d like to place an order:%0A${orderText}%0A%0ATotal: $${total}`;
-    const url = `https://wa.me/12465551234?text=${message}`; // Replace with your business WhatsApp number
+    const url = `https://wa.me/12462453221?text=${message}`; // Replace with your business WhatsApp number
     window.open(url, "_blank");
   };
 
